@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
+
+import "./TopCustomers.scss";
 
 interface Item {
   Total_Price: number;
@@ -29,9 +31,12 @@ const TopCustomers = ({ orders }: TopCustomersProps) => {
   useEffect(() => {
     const customerStats: { [key: string]: Customer } = {};
 
-    orders.forEach(order => {
-      const orderTotal = order.Items.reduce((sum, item) => sum + item.Total_Price, 0);
-      
+    orders.forEach((order) => {
+      const orderTotal = order.Items.reduce(
+        (sum, item) => sum + item.Total_Price,
+        0
+      );
+
       if (customerStats[order.Customer_Name]) {
         customerStats[order.Customer_Name].totalSpent += orderTotal;
         customerStats[order.Customer_Name].orderCount += 1;
@@ -53,19 +58,21 @@ const TopCustomers = ({ orders }: TopCustomersProps) => {
   }, [orders]);
 
   return (
-    <div className="top-customers">
-      <h3 className="top-customers__title">Top Customers</h3>
-      <div className="top-customers__list">
+    <div className="topCustomers">
+      <h3 className="topCustomersTitle">Top Customers</h3>
+      <div className="topCustomersList">
         {topCustomers.map((customer, index) => (
-          <div key={customer.name} className="top-customer">
-            <div className="top-customer__rank">#{index + 1}</div>
-            <div className="top-customer__details">
-              <h4 className="top-customer__name">{customer.name}</h4>
-              <p className="top-customer__phone">{customer.phone}</p>
+          <div key={customer.name} className="topCustomer">
+            <div className="topCustomerRank">#{index + 1}</div>
+            <div className="topCustomerDetails">
+              <h4 className="topCustomerName">{customer.name}</h4>
+              <p className="topCustomerPhone">{customer.phone}</p>
             </div>
-            <div className="top-customer__stats">
-              <p className="top-customer__spent">${customer.totalSpent.toFixed(2)}</p>
-              <p className="top-customer__orders">{customer.orderCount} orders</p>
+            <div className="topCustomerStats">
+              <p className="topCustomerSpent">
+                ${customer.totalSpent.toFixed(2)}
+              </p>
+              <p className="topCustomerOrders">{customer.orderCount} orders</p>
             </div>
           </div>
         ))}

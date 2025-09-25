@@ -1,0 +1,206 @@
+.dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dashboardHeader {
+  margin-bottom: 2rem;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.dashboardTitle {
+  font-size: 32px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.dashboardSubtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
+}
+
+.filterSelect {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  font-size: 0.875rem;
+  color: #111827;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  &:hover {
+    border-color: #9ca3af;
+  }
+}
+
+.dashboardGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dashboardMetrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.dashboardStatus {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 1rem 0;
+}
+
+.metricCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.metricCardIcon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.metricCardContent {
+  flex: 1;
+}
+
+.metricCardValue {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.25rem 0;
+}
+
+.metricCardLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.metricCardRevenue .metricCardIcon {
+  background: #e63946;
+}
+
+.metricCardOrders .metricCardIcon {
+  background: #6ba368;
+}
+
+.metricCardAverage .metricCardIcon {
+  background: #e63946;
+}
+
+.metricCardCustomers .metricCardIcon {
+  background: #6ba368;
+}
+
+.statusCard {
+  background: rgba(244, 98, 110, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.statusCardIcon {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.statusCardContent {
+  text-align: center;
+  flex: 1;
+}
+
+.statusCardValue {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.125rem 0;
+}
+
+.statusCardLabel {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.statusCardDelivered .statusCardIcon {
+  background: #5c5c5c;
+}
+
+.statusCardTransit .statusCardIcon {
+  background: #5c5c5c;
+}
+
+.statusCardPending .statusCardIcon {
+  background: #5c5c5c;
+}
+
+.dashboardOrdersByHour {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.dashboardOrdersByHourTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 1.5rem 0;
+}
+
+.dashboardItems {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}

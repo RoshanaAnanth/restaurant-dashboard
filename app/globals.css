@@ -80,3 +80,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+.mainContainer {
+  background-color: #fdf9f5;
+}
+
+.appHeader {
+  background-color: #fdf9f5;
+  padding: 16px 40px;
+  font-size: 24px;
+  font-weight: 600;
+  border-bottom: 1px solid #e4e3e3;
+}

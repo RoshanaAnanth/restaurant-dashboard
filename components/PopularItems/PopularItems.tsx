@@ -1,11 +1,15 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
+
+import "./PopularItems.scss";
 
 interface Item {
   Item_Name: string;
+  Item_Type: string;
   Item_Price: number;
   Quantity: number;
+  Rating: string;
   Total_Price: number;
 }
 
@@ -28,12 +32,18 @@ const PopularItems = ({ orders }: PopularItemsProps) => {
   const [popularItems, setPopularItems] = useState<PopularItem[]>([]);
 
   useEffect(() => {
-    const itemStats: { [key: string]: { totalRating: number; ratingCount: number; totalOrders: number } } = {};
+    const itemStats: {
+      [key: string]: {
+        totalRating: number;
+        ratingCount: number;
+        totalOrders: number;
+      };
+    } = {};
 
-    orders.forEach(order => {
-      order.Items.forEach(item => {
+    orders.forEach((order) => {
+      order.Items.forEach((item) => {
         const rating = item.Rating ? parseFloat(item.Rating) : null;
-        
+
         if (itemStats[item.Item_Name]) {
           itemStats[item.Item_Name].totalOrders += item.Quantity;
           if (rating !== null && !isNaN(rating)) {
@@ -42,7 +52,8 @@ const PopularItems = ({ orders }: PopularItemsProps) => {
           }
         } else {
           itemStats[item.Item_Name] = {
-            totalRating: rating !== null && !isNaN(rating) ? rating * item.Quantity : 0,
+            totalRating:
+              rating !== null && !isNaN(rating) ? rating * item.Quantity : 0,
             ratingCount: rating !== null && !isNaN(rating) ? item.Quantity : 0,
             totalOrders: item.Quantity,
           };
@@ -65,23 +76,17 @@ const PopularItems = ({ orders }: PopularItemsProps) => {
   }, [orders]);
 
   return (
-    <div className="popular-items">
-      <h3 className="popular-items__title">Most Liked Menu Items</h3>
-      <div className="popular-items__list">
+    <div className="popularItems">
+      <h3 className="popularItemsTitle">Most Liked Menu Items</h3>
+      <div className="popularItemsList">
         {popularItems.map((item, index) => (
-          <div key={item.name} className="popular-item">
-            <div className="popular-item__rank">#{index + 1}</div>
-            <div className="popular-item__details">
-              <h4 className="popular-item__name">{item.name}</h4>
-              <p className="popular-item__stats">
-                ⭐ {item.averageRating.toFixed(1)} avg rating • {item.totalOrders} orders
+          <div key={item.name} className="popularItem">
+            <div className="popularItemRank">#{index + 1}</div>
+            <div className="popularItemDetails">
+              <h4 className="popularItemName">{item.name}</h4>
+              <p className="popularItemStats">
+                ⭐ {item.averageRating.toFixed(1)} • {item.totalOrders} orders
               </p>
-            </div>
-            <div className="popular-item__bar">
-              <div 
-                className="popular-item__progress" 
-                style={{ width: `${(item.averageRating / 5) * 100}%` }}
-              />
             </div>
           </div>
         ))}

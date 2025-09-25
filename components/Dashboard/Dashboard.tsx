@@ -1,0 +1,277 @@
+"use client";
+
+import {
+  AlertCircle,
+  CheckCircle,
+  Clock,
+  DollarSign,
+  ShoppingCart,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+
+import ordersData from "../../data/masterdata.json";
+
+import LeastLikedItems from "../LeastLikedItems/LeastLikedItems";
+import OrderTypeChart from "../OrderTypeChart/OrderTypeChart";
+import PopularItems from "../PopularItems/PopularItems";
+import RecentOrders from "../RecentOrders/RecentOrders";
+// import "../styles/dashboard.scss";
+import TopCustomers from "../TopCustomers/TopCustomers";
+import "./Dashboard.scss";
+
+interface Order {
+  Order_ID: number;
+  Customer_Name: string;
+  Customer_Phone: string;
+  Customer_Address: string;
+  Items: Array<{
+    Item_Name: string;
+    Item_Price: number;
+    Item_Type: string;
+    Quantity: number;
+    Rating: string;
+    Total_Price: number;
+  }>;
+  Order_Date: string;
+  Order_Type: string;
+  Order_Status: string;
+  Delivery_Person: string;
+  Delivery_Status: string;
+}
+
+const Dashboard = () => {
+  const [orders, setOrders] = useState<Order[]>(ordersData);
+  const [selectedMonth, setSelectedMonth] = useState<string>("All");
+  const [metrics, setMetrics] = useState({
+    totalRevenue: 0,
+    totalOrders: 0,
+    avgOrderValue: 0,
+    pendingOrders: 0,
+    deliveredOrders: 0,
+    inTransitOrders: 0,
+    onlineOrders: 0,
+    dineInOrders: 0,
+  });
+
+  useEffect(() => {
+    const filteredOrders = filterOrdersByMonth(orders, selectedMonth);
+    calculateMetrics(filteredOrders);
+  }, [orders, selectedMonth]);
+
+  const filterOrdersByMonth = (ordersData: Order[], month: string): Order[] => {
+    if (month === "All") {
+      return ordersData;
+    }
+
+    return ordersData.filter((order) => {
+      const orderDate = new Date(order.Order_Date);
+      const orderMonth = orderDate.getMonth(); // 0-based (0 = January, 7 = August, 8 = September)
+      const orderYear = orderDate.getFullYear();
+
+      if (month === "August" && orderMonth === 7 && orderYear === 2025) {
+        return true;
+      }
+      if (month === "September" && orderMonth === 8 && orderYear === 2025) {
+        return true;
+      }
+      return false;
+    });
+  };
+
+  const calculateMetrics = (ordersData: Order[]) => {
+    const totalRevenue = ordersData.reduce((sum, order) => {
+      return (
+        sum +
+        order.Items.reduce((itemSum, item) => itemSum + item.Total_Price, 0)
+      );
+    }, 0);
+
+    const totalOrders = ordersData.length;
+    const avgOrderValue = totalRevenue / totalOrders;
+
+    const pendingOrders = ordersData.filter(
+      (order) => order.Order_Status === "Pending"
+    ).length;
+    const deliveredOrders = ordersData.filter(
+      (order) => order.Order_Status === "Delivered"
+    ).length;
+    const inTransitOrders = ordersData.filter(
+      (order) => order.Order_Status === "In Transit"
+    ).length;
+
+    const onlineOrders = ordersData.filter(
+      (order) => order.Order_Type === "Online"
+    ).length;
+    const dineInOrders = ordersData.filter(
+      (order) => order.Order_Type === "Dine In"
+    ).length;
+
+    setMetrics({
+      totalRevenue,
+      totalOrders,
+      avgOrderValue,
+      pendingOrders,
+      deliveredOrders,
+      inTransitOrders,
+      onlineOrders,
+      dineInOrders,
+    });
+  };
+
+  const filteredOrders = filterOrdersByMonth(orders, selectedMonth);
+
+  const ordersByHour: { [hour: number]: number } = {};
+  filteredOrders.forEach((order) => {
+    const hour = new Date(order.Order_Date).getHours();
+    ordersByHour[hour] = (ordersByHour[hour] || 0) + 1;
+  });
+
+  const barChartData = Array.from({ length: 24 }, (_, i) => ({
+    hour: `${i}:00`,
+    orders: ordersByHour[i] || 0,
+  }));
+
+  return (
+    <div className="dashboard">
+      <div className="dashboardHeader">
+        <div className="headerContent">
+          <div>
+            <h1 className="dashboardTitle">Welcome back</h1>
+            <p className="dashboardSubtitle">
+              Monitor your business performance and make data-driven decisions
+            </p>
+          </div>
+          <select
+            id="month-filter"
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            className="filterSelect"
+          >
+            <option value="All">All</option>
+            <option value="August">August 2025</option>
+            <option value="September">September 2025</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="dashboardGrid">
+        <div className="dashboardMetrics">
+          <div className="metricCard metricCardRevenue">
+            <div className="metricCardIcon">
+              <DollarSign size={28} />
+            </div>
+            <div className="metricCardContent">
+              <h3 className="metricCardValue">
+                ${metrics.totalRevenue.toFixed(2)}
+              </h3>
+              <p className="metricCardLabel">Total Revenue</p>
+            </div>
+          </div>
+
+          <div className="metricCard metricCardOrders">
+            <div className="metricCardIcon">
+              <ShoppingCart size={28} />
+            </div>
+            <div className="metricCardContent">
+              <h3 className="metricCardValue">{metrics.totalOrders}</h3>
+              <p className="metricCardLabel">Total Orders</p>
+            </div>
+          </div>
+
+          <div className="metricCard metricCardAverage">
+            <div className="metricCardIcon">
+              <TrendingUp size={28} />
+            </div>
+            <div className="metricCardContent">
+              <h3 className="metricCardValue">
+                ${metrics.avgOrderValue.toFixed(2)}
+              </h3>
+              <p className="metricCardLabel">Avg Order Value</p>
+            </div>
+          </div>
+
+          <div className="metricCard metricCardCustomers">
+            <div className="metricCardIcon">
+              <Users size={28} />
+            </div>
+            <div className="metricCardContent">
+              <h3 className="metricCardValue">{filteredOrders.length}</h3>
+              <p className="metricCardLabel">Unique Customers</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="dashboardStatus">
+          <div className="statusCard statusCardDelivered">
+            <div className="statusCardIcon">
+              <CheckCircle size={28} />
+            </div>
+            <div className="statusCardContent">
+              <h4 className="statusCardValue">{metrics.deliveredOrders}</h4>
+              <p className="statusCardLabel">Delivered</p>
+            </div>
+          </div>
+
+          <div className="statusCard statusCardTransit">
+            <div className="statusCardIcon">
+              <Clock size={28} />
+            </div>
+            <div className="statusCardContent">
+              <h4 className="statusCardValue">{metrics.inTransitOrders}</h4>
+              <p className="statusCardLabel">In Transit</p>
+            </div>
+          </div>
+
+          <div className="statusCard statusCardPending">
+            <div className="statusCardIcon">
+              <AlertCircle size={28} />
+            </div>
+            <div className="statusCardContent">
+              <h4 className="statusCardValue">{metrics.pendingOrders}</h4>
+              <p className="statusCardLabel">Pending</p>
+            </div>
+          </div>
+        </div>
+
+        <OrderTypeChart
+          onlineOrders={metrics.onlineOrders}
+          dineInOrders={metrics.dineInOrders}
+        />
+
+        <div className="dashboardOrdersByHour">
+          <h3 className="dashboardOrdersByHourTitle">Most Ordered Times</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={barChartData}>
+              <CartesianGrid strokeDasharray="4 4" />
+              <XAxis dataKey="hour" />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Bar dataKey="orders" fill="#6BA368" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="dashboardItems">
+          <PopularItems orders={filteredOrders} />
+          <LeastLikedItems orders={filteredOrders} />
+        </div>
+
+        <TopCustomers orders={filteredOrders} />
+        <RecentOrders orders={filteredOrders} />
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;

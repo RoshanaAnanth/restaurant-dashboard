@@ -1,0 +1,92 @@
+.recentOrders {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.recentOrdersTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 1.5rem 0;
+}
+
+.recentOrdersList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.recentOrder {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 8px;
+  // background: #f9fafb;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(107, 163, 104, 0.1);
+  }
+}
+
+.recentOrderHeader {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.recentOrderId {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.recentOrderDetails {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.recentOrderCustomer {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+  margin: 0 0 0.125rem 0;
+}
+
+.recentOrderType {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.recentOrderTotal {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.orderStatus {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.delivered {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.transit {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.pending {
+  background: #fee2e2;
+  color: #991b1b;
+}

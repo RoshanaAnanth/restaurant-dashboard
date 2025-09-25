@@ -1,0 +1,82 @@
+.topCustomers {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.topCustomersTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 1.5rem 0;
+}
+
+.topCustomersList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.topCustomer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: #f9fafb;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #f3f4f6;
+  }
+}
+
+.topCustomerRank {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #6ba368;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.topCustomerDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.topCustomerName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.125rem 0;
+}
+
+.topCustomerPhone {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.topCustomerStats {
+  text-align: right;
+}
+
+.topCustomerSpent {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.125rem 0;
+}
+
+.topCustomerOrders {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+}

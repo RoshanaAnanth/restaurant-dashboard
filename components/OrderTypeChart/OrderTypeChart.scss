@@ -1,0 +1,66 @@
+.orderTypeChart {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.orderTypeChartTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 1.5rem 0;
+}
+
+.orderTypeChartStats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.orderTypeChartBar {
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #e5e7eb;
+  display: flex;
+}
+
+.orderTypeChartSegment {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.online {
+  background: #e63946;
+}
+
+.dineIn {
+  background: #6ba368;
+}
+
+.orderStat {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.orderStatIndicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.orderStatLabel {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.orderStatValue {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+}

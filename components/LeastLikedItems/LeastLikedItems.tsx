@@ -1,13 +1,16 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
+
+import "./LeastLikedItems.scss";
 
 interface Item {
   Item_Name: string;
+  Item_Type: string;
   Item_Price: number;
   Quantity: number;
+  Rating: string;
   Total_Price: number;
-  Rating?: string;
 }
 
 interface Order {
@@ -29,12 +32,18 @@ const LeastLikedItems = ({ orders }: LeastLikedItemsProps) => {
   const [leastLikedItems, setLeastLikedItems] = useState<LeastLikedItem[]>([]);
 
   useEffect(() => {
-    const itemStats: { [key: string]: { totalRating: number; ratingCount: number; totalOrders: number } } = {};
+    const itemStats: {
+      [key: string]: {
+        totalRating: number;
+        ratingCount: number;
+        totalOrders: number;
+      };
+    } = {};
 
-    orders.forEach(order => {
-      order.Items.forEach(item => {
+    orders.forEach((order) => {
+      order.Items.forEach((item) => {
         const rating = item.Rating ? parseFloat(item.Rating) : null;
-        
+
         if (itemStats[item.Item_Name]) {
           itemStats[item.Item_Name].totalOrders += item.Quantity;
           if (rating !== null && !isNaN(rating)) {
@@ -43,7 +52,8 @@ const LeastLikedItems = ({ orders }: LeastLikedItemsProps) => {
           }
         } else {
           itemStats[item.Item_Name] = {
-            totalRating: rating !== null && !isNaN(rating) ? rating * item.Quantity : 0,
+            totalRating:
+              rating !== null && !isNaN(rating) ? rating * item.Quantity : 0,
             ratingCount: rating !== null && !isNaN(rating) ? item.Quantity : 0,
             totalOrders: item.Quantity,
           };
@@ -66,23 +76,17 @@ const LeastLikedItems = ({ orders }: LeastLikedItemsProps) => {
   }, [orders]);
 
   return (
-    <div className="least-liked-items">
-      <h3 className="least-liked-items__title">Least Liked Menu Items</h3>
-      <div className="least-liked-items__list">
+    <div className="leastLikedItems">
+      <h3 className="leastLikedItemsTitle">Least Liked Menu Items</h3>
+      <div className="leastLikedItemsList">
         {leastLikedItems.map((item, index) => (
-          <div key={item.name} className="least-liked-item">
-            <div className="least-liked-item__rank">#{index + 1}</div>
-            <div className="least-liked-item__details">
-              <h4 className="least-liked-item__name">{item.name}</h4>
-              <p className="least-liked-item__stats">
-                ⭐ {item.averageRating.toFixed(1)} avg rating • {item.totalOrders} orders
+          <div key={item.name} className="leastLikedItem">
+            <div className="leastLikedItemRank">#{index + 1}</div>
+            <div className="leastLikedItemDetails">
+              <h4 className="leastLikedItemName">{item.name}</h4>
+              <p className="leastLikedItemStats">
+                ⭐ {item.averageRating.toFixed(1)} • {item.totalOrders} orders
               </p>
-            </div>
-            <div className="least-liked-item__bar">
-              <div 
-                className="least-liked-item__progress" 
-                style={{ width: `${(item.averageRating / 5) * 100}%` }}
-              />
             </div>
           </div>
         ))}
