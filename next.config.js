@@ -1,9 +1,15 @@
 /** @type {import('next').NextConfig} */
-const repo = process.env.GITHUB_REPOSITORY?.split("/")[1] || "your-repo";
+const isGitHubPages = process.env.NEXT_PUBLIC_GHP === "true";
 
 module.exports = {
-  output: "export", // instruct Next to produce static HTML via next export
-  assetPrefix: `/${repo}/`, // ensure static assets load from /repo/
-  basePath: `/${repo}`, // makes routes resolve under /repo
-  trailingSlash: true, // helpful for GitHub Pages to serve index.html in folders
+  output: "export",
+  trailingSlash: true,
+  // Only set basePath/assetPrefix when necessary — keep them off for default export
+  // ...(isGitHubPages
+  //   ? {
+  // If you still want to use basePath in some CI flows, set NEXT_PUBLIC_GHP=true in that flow
+  // basePath: '/your-repo',
+  // assetPrefix: '/your-repo/',
+  //   }
+  // : {}),
 };
