@@ -41,6 +41,7 @@ interface Order {
 
 const Dashboard = () => {
   const [orders, setOrders] = useState<Order[]>(ordersData);
+  const [selectedMonth, setSelectedMonth] = useState<string>('All');
   const [metrics, setMetrics] = useState({
     totalRevenue: 0,
     totalOrders: 0,
@@ -53,8 +54,29 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    calculateMetrics(orders);
-  }, [orders]);
+    const filteredOrders = filterOrdersByMonth(orders, selectedMonth);
+    calculateMetrics(filteredOrders);
+  }, [orders, selectedMonth]);
+
+  const filterOrdersByMonth = (ordersData: Order[], month: string): Order[] => {
+    if (month === 'All') {
+      return ordersData;
+    }
+
+    return ordersData.filter(order => {
+      const orderDate = new Date(order.Order_Date);
+      const orderMonth = orderDate.getMonth(); // 0-based (0 = January, 7 = August, 8 = September)
+      const orderYear = orderDate.getFullYear();
+      
+      if (month === 'August' && orderMonth === 7 && orderYear === 2025) {
+        return true;
+      }
+      if (month === 'September' && orderMonth === 8 && orderYear === 2025) {
+        return true;
+      }
+      return false;
+    });
+  };
 
   const calculateMetrics = (ordersData: Order[]) => {
     const totalRevenue = ordersData.reduce((sum, order) => {
@@ -96,13 +118,34 @@ const Dashboard = () => {
     });
   };
 
+  const filteredOrders = filterOrdersByMonth(orders, selectedMonth);
+
   return (
     <div className="dashboard">
       <div className="dashboard__header">
-        <h1 className="dashboard__title">Restaurant Dashboard</h1>
-        <p className="dashboard__subtitle">
-          Monitor your business performance and make data-driven decisions
-        </p>
+        <div className="dashboard__header-content">
+          <div>
+            <h1 className="dashboard__title">Restaurant Dashboard</h1>
+            <p className="dashboard__subtitle">
+              Monitor your business performance and make data-driven decisions
+            </p>
+          </div>
+          <div className="dashboard__filters">
+            <label htmlFor="month-filter" className="dashboard__filter-label">
+              Filter by Month:
+            </label>
+            <select
+              id="month-filter"
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className="dashboard__filter-select"
+            >
+              <option value="All">All Months</option>
+              <option value="August">August 2025</option>
+              <option value="September">September 2025</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div className="dashboard__grid">
@@ -147,7 +190,7 @@ const Dashboard = () => {
               <Users size={24} />
             </div>
             <div className="metric-card__content">
-              <h3 className="metric-card__value">{orders.length}</h3>
+              <h3 className="metric-card__value">{filteredOrders.length}</h3>
               <p className="metric-card__label">Unique Customers</p>
             </div>
           </div>
@@ -191,9 +234,9 @@ const Dashboard = () => {
           onlineOrders={metrics.onlineOrders}
           dineInOrders={metrics.dineInOrders}
         />
-        <PopularItems orders={orders} />
-        <TopCustomers orders={orders} />
-        <RecentOrders orders={orders} />
+        <PopularItems orders={filteredOrders} />
+        <TopCustomers orders={filteredOrders} />
+        <RecentOrders orders={filteredOrders} />
       </div>
     </div>
   );

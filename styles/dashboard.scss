@@ -7,6 +7,13 @@
     margin-bottom: 2rem;
   }
 
+  &__header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
   &__title {
     font-size: 2.25rem;
     font-weight: 700;
@@ -17,6 +24,40 @@
   &__subtitle {
     font-size: 1.125rem;
     color: #6b7280;
+  }
+
+  &__filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 200px;
+  }
+
+  &__filter-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+  }
+
+  &__filter-select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    font-size: 0.875rem;
+    color: #111827;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    &:hover {
+      border-color: #9ca3af;
+    }
   }
 
   &__grid {
@@ -511,6 +552,16 @@
 
 @media (max-width: 768px) {
   .dashboard {
+    &__header-content {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    &__filters {
+      min-width: auto;
+    }
+
     &__title {
       font-size: 1.875rem;
     }
