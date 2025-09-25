@@ -16,6 +16,7 @@ import ordersData from "../data/masterdata.json";
 import "../styles/dashboard.scss";
 import OrderTypeChart from "./OrderTypeChart";
 import PopularItems from "./PopularItems";
+import LeastLikedItems from "./LeastLikedItems";
 import RecentOrders from "./RecentOrders";
 import TopCustomers from "./TopCustomers";
 
@@ -235,6 +236,7 @@ const Dashboard = () => {
           dineInOrders={metrics.dineInOrders}
         />
         <PopularItems orders={filteredOrders} />
+        <LeastLikedItems orders={filteredOrders} />
         <TopCustomers orders={filteredOrders} />
         <RecentOrders orders={filteredOrders} />
       </div>
