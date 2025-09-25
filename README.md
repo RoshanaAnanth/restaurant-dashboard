@@ -10,4 +10,4 @@ This restaurant dashboard is to show meaningful insights to the owner about rest
 
 ### Live Version
 
-This dashboard is live at 
+This dashboard is live at **[Restaurant Dashboard](https://restaurant-dashboard-zeta.vercel.app/)**.
